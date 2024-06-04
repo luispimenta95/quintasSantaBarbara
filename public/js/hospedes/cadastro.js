@@ -57,7 +57,6 @@ function validateForm() {
         mensagem = "A data de entrada não pode ser maior que a data de saída.";
         isValid = false;
     }
-
     alert(mensagem);
     return isValid;
 }

@@ -123,4 +123,20 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    // Variaveis do PDF
+    'empresa' => env('EMPRESA'),
+    'nome' => env('NOME'),
+    'telefone' => env('CELULAR'),
+    'cpf' => env('CPF'),
+    'cidade' => env('CIDADE'),
+    'uf' => env('UF'),
+    'fracao' => env('FRACAO'),
+    'numero' => env('NUMERO'),
+    'bloco' => env('BLOCO'),
+    'tipo' => env('TIPO_UNIDADE'),
+    'email' => env('EMAIL'),
+    'assinatura' => env('PATH_ASSINATURA')
+
+    //FIM VARIAVEIS DO PDF
+
 ];

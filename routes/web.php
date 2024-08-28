@@ -6,7 +6,7 @@ use App\Http\Controllers\HostController as Host;
 use App\Http\Controllers\AppController as App;
 use App\Http\Controllers\ReservaController as Reserva;
 use App\Http\Controllers\Auth\RegisteredUserController;
-
+use App\Http\Controllers\MobileController as Mobile;
 
 
 
@@ -15,6 +15,8 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
  Route::get('/acesso', [RegisteredUserController::class, 'create'])
                 ->name('register');
+Route::get('/reservas-mobile', [Mobile::class, 'reserva'])->name('reservas-mobile');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

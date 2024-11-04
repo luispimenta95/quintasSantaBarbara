@@ -15,6 +15,9 @@ class MobileController extends Controller
     public function reserva()
     {
         return Reserva::all();
+    }
 
+    public function getPath(): string{
+        return public_path();
     }
 }

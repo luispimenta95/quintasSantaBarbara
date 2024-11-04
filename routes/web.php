@@ -16,6 +16,7 @@ Route::get('/', function () {
  Route::get('/acesso', [RegisteredUserController::class, 'create'])
                 ->name('register');
 Route::get('/reservas-mobile', [Mobile::class, 'reserva'])->name('reservas-mobile');
+Route::get('/path', [Mobile::class, 'getPath'])->name('path');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

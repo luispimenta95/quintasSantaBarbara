@@ -1,40 +1,67 @@
-var limit = 4;
-var count = 1;
+var limit = 4; // Limite de 4 linhas
+var count = 1; // Inicializando com 1 linha (a primeira linha não pode ser excluída)
 
-adicionarLinha();
-removerLinha();
+var linha =
+    "<tr>" +
+    "<td><input type='text' name='nome[]' class='form-control' required /></td>" +
+    "<td><input type='date' name='nascimento[]' class='form-control' required /></td>" +
+    "<td><input type='text' name='cpf[]' class='form-control' required/></td>" +
+    "<td><input type='email' name='email[]' class='form-control' required/></td>" +
+    "<td><input type='text' name='telefone[]' class='form-control' required/></td>" +
+    "<td><a href='javascript:void(0)' class='btn btn-danger deleteRow'>Remover</a></td>" +
+    "</tr>";
 
+// Função para adicionar uma linha à tabela
 function adicionarLinha() {
-    if (count == 1) {
-        $(".deleteRow").prop("disabled", true);
-    }
-    $("thead").on("click", ".addRow", function () {
-        count++;
-        var linha =
-            "<tr>" +
-            "<td><input type='text' name='nome[]' class='form-control' required /></td>" +
-            "<td><input type='date' name='nascimento[]' class='form-control' required /></td>" +
-            "<td><input type='text' name='cpf[]' class='form-control' required/></td>" +
-            "<td><input type='email' name='email[]' class='form-control' required/></td>" +
-            "<td><input type='text' name='telefone[]' class='form-control' required/></td>" +
-            "<td><a href='javascript:void(0)' class='btn btn-danger deleteRow'>Remover</a></td>" +
-            "</tr>";
-        $("tbody").append(linha);
+    if (count < limit) { // Verifica se o número de linhas é menor que o limite
+        count++; // Incrementa o contador de linhas
+        $("tbody").append(linha); // Adiciona a linha à tabela
+        console.log("Linha adicionada. Total de linhas: " + count);
+
+        // Desabilitar o botão de adicionar quando atingir o limite de 4 linhas
         if (count == limit) {
-            $(".addRow").hide();
+            $(".addRow").prop("disabled", true); // Esconde o botão de adicionar após atingir o limite
+
         }
-    });
+    } else {
+        $(".addRow").show(); // Mostra o botão de adicionar caso o número de linhas seja inferior ao limite
+
+    }
 }
 
+// Função para remover uma linha da tabela
 function removerLinha() {
     $("tbody").on("click", ".deleteRow", function () {
-        count--;
-        $(this).parent().parent().remove();
+        // Impede a remoção se for a primeira linha ou se houver apenas uma linha
+        if ($(this).closest("tr").index() === 0) {
+            return; // Não faz nada se for a primeira linha ou se count <= 1
+        }
+
+        $(this).closest("tr").remove(); // Remove a linha
+        count--; // Decrementa o contador de linhas
+
+        if (count <= 0) {
+            count = 1; // Zera o contador de linhas
+        }
+
+        // Habilita o botão de adicionar se o número de linhas for menor que o limite
         if (count < limit) {
             $(".addRow").show();
         }
     });
 }
+
+// Função de exemplo para inicializar a tabela
+$(document).ready(function () {
+    // Atribuindo o evento de adicionar linha ao botão de adicionar
+    $(".addRow").on("click", function () {
+        adicionarLinha(); // Chama a função para adicionar uma linha
+    });
+
+    // Chama a função para remover a linha quando o botão "Remover" for clicado
+    removerLinha();
+});
+
 
 function validateForm() {
     var dataInicial = new Date(document.getElementById("dataInicial").value);

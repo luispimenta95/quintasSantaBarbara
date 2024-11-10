@@ -56,7 +56,8 @@
     <br>
 
     <div class="text-center">
-        <img src="data:image/svg+xml;base64,<?php echo base64_encode(file_get_contents(base_path(config('app.assinatura')))); ?>" width="300">
+
+<img src="data:image/png;base64,<?php echo base64_encode(file_get_contents(public_path('imagens/signature.png'))); ?>" width="300">
         <p>Assinatura do propietário</p>
 
     </div>

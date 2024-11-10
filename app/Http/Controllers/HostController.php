@@ -43,7 +43,7 @@ class HostController extends Controller
         $data['dataFinal'] = $request->dataFinal;
         $data['hospedes'] = $hospedes;
         $data['camArquivo'] = public_path('pdf/reservas/');
-        $data['nomePdf'] = 'Reserva_' . date("Y_m_d_his") . ".pdf";
+        $data['nomePdf'] = 'Reserva_' . date("d_m_Y_his") . ".pdf";
         // Fim das informacoes hospedes
 
         //Reserva

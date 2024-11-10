@@ -1,0 +1,6 @@
+php artisan key:generate
+php artisan config:cache
+npm install 
+npm run build
+php artisan migrate
+php artisan serve

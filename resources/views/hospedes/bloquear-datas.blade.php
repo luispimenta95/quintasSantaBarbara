@@ -29,7 +29,8 @@
                 }
                 return [true];
             },
-            dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd",
+            minDate: 0
         });
 
         // Exibindo aviso quando a data bloqueada é clicada

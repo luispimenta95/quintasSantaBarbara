@@ -1,10 +1,14 @@
 var limit = 4; // Limite de 4 linhas
 var count = 1; // Inicializando com 1 linha (a primeira linha não pode ser excluída)
-
+var today = new Date();
+var yyyy = today.getFullYear();
+var mm = String(today.getMonth() + 1).padStart(2, '0'); // Mês começa em 0
+var dd = String(today.getDate()).padStart(2, '0');
+today = yyyy + '-' + mm + '-' + dd;
 var linha =
     "<tr>" +
     "<td><input type='text' name='nome[]' class='form-control' required /></td>" +
-    "<td><input type='date' name='nascimento[]' class='form-control' required /></td>" +
+    "<td><input type='date' name='nascimento[]' class='form-control' required max='" + today + "' /></td>" +
     "<td><input type='text' name='cpf[]' class='form-control' required/></td>" +
     "<td><input type='email' name='email[]' class='form-control' required/></td>" +
     "<td><input type='text' name='telefone[]' class='form-control' required/></td>" +

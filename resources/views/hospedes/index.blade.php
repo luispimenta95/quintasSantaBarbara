@@ -34,7 +34,7 @@
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Data de nascimento</th>
+                                <th>Nascimento</th>
                                 <th>CPF</th>
                                 <th>E-mail</th>
                                 <th>Telefone</th>
@@ -44,12 +44,12 @@
                         <tbody>
                             <tr>
                                 <td><input type='text' name='nome[]' class='form-control' /></td>
-                                <td><input type='date' name='nascimento[]' class='form-control' /></td>
+                                <td><input type='date' name='nascimento[]' class='form-control' max="<?= date('Y-m-d'); ?>" /></td>
                                 <td><input type='text' name='cpf[]' class='form-control' /></td>
                                 <td><input type='email' name='email[]' class='form-control' /></td>
                                 <td><input type='text' name='telefone[]' class='form-control' /></td>
 
-                                <td><a href="javascript:void(0)" class="btn btn-danger deleteRow">Remover</a></td>
+                                <td><a href=" javascript:void(0)" class="btn btn-danger deleteRow">Remover</a></td>
 
                             </tr>
                         </tbody>

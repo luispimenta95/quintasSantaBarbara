@@ -16,8 +16,6 @@ function adicionarLinha() {
     if (count < limit) { // Verifica se o número de linhas é menor que o limite
         count++; // Incrementa o contador de linhas
         $("tbody").append(linha); // Adiciona a linha à tabela
-        console.log("Linha adicionada. Total de linhas: " + count);
-
         // Desabilitar o botão de adicionar quando atingir o limite de 4 linhas
         if (count == limit) {
             $(".addRow").prop("disabled", true); // Esconde o botão de adicionar após atingir o limite

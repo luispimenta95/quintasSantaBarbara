@@ -6,12 +6,33 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as Database;
 use App\Http\Controllers\ReservaController as Reserva;
+use DatePeriod;
+use DateInterval;
+use App\Models\Reserva as ReservaModel;
 
 class HostController extends Controller
 {
+    private $blockedDates = array();
+
     public function index()
     {
-        return view('hospedes.index');
+
+        $reservas = ReservaModel::all();
+        foreach ($reservas as $reserva) {
+
+            $start_date = date_create($reserva->dataInicial);
+            $end_date = date_create($reserva->dataFinal);
+            $end_date->modify('+1 day');
+
+            $interval = DateInterval::createFromDateString('1 day');
+            $daterange = new DatePeriod($start_date, $interval, $end_date);
+
+            // Definindo as datas bloqueadas
+            $this->bloquearDatas($daterange);
+        }
+
+        $datasBloqueadas = $this->blockedDates;
+        return view('hospedes.index', compact('datasBloqueadas'));
     }
     public function receberDados(Request $request)
     {
@@ -54,5 +75,12 @@ class HostController extends Controller
         //Fim reserva
 
         return view('hospedes.index');
+    }
+
+    private function bloquearDatas($dr)
+    {
+        foreach ($dr as $date1) {
+            array_push($this->blockedDates, $date1->format("Y-m-d"));
+        }
     }
 }

@@ -65,6 +65,7 @@
 
     <script>
         $(document).ready(function() {
+            maxInterval = 60;
             // Lista de datas bloqueadas no formato YYYY-MM-DD
             const datasBloqueadas = @json($datasBloqueadas);
 
@@ -84,7 +85,8 @@
                     return [true];
                 },
                 dateFormat: "yy-mm-dd",
-                minDate: 0
+                minDate: 0,
+                maxDate: maxInterval
             });
             $("#dataFinal").datepicker({
 
@@ -96,7 +98,8 @@
                     return [true];
                 },
                 dateFormat: "yy-mm-dd",
-                minDate: 0
+                minDate: 0,
+                maxDate: maxInterval
             });
 
             // Exibindo aviso quando a data bloqueada é clicada

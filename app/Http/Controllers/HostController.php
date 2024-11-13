@@ -29,10 +29,12 @@ class HostController extends Controller
 
             // Definindo as datas bloqueadas
             $this->bloquearDatas($daterange);
+
+            $datasConfirmadas = ['2024-12-25', '2024-12-31'];
         }
 
         $datasBloqueadas = $this->blockedDates;
-        return view('hospedes.index', compact('datasBloqueadas'));
+        return view('hospedes.index', compact('datasBloqueadas', 'datasConfirmadas'));
     }
     public function receberDados(Request $request)
     {

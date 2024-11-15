@@ -77,11 +77,11 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type='text' name='nome[]' class='form-control' /></td>
-                                <td><input type='date' name='nascimento[]' class='form-control' max="<?= date('Y-m-d'); ?>" /></td>
-                                <td><input type='text' name='cpf[]' class='form-control' /></td>
-                                <td><input type='email' name='email[]' class='form-control' /></td>
-                                <td><input type='text' name='telefone[]' class='form-control' /></td>
+                                <td><input type='text' name='nome[]' class='form-control obrigatorio' required /></td>
+                                <td><input type='date' name='nascimento[]' class='form-control obrigatorio' max="<?= date('Y-m-d'); ?>" required /></td>
+                                <td><input type='text' name='cpf[]' class='form-control cpf' maxlength="11" required /></td>
+                                <td><input type='email' name='email[]' class='form-control obrigatorio' required /></td>
+                                <td><input type='text' name='telefone[]' class='form-control obrigatorio' required /></td>
 
                                 <td><a href=" javascript:void(0)" class="btn btn-danger deleteRow">Remover</a></td>
 

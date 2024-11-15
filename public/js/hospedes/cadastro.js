@@ -9,11 +9,12 @@ var linha =
     "<tr>" +
     "<td><input type='text' name='nome[]' class='form-control' required /></td>" +
     "<td><input type='date' name='nascimento[]' class='form-control' required max='" + today + "' /></td>" +
-    "<td><input type='text' name='cpf[]' class='form-control' required/></td>" +
+    "<td><input type='text' name='cpf[]' class='form-control cpf' required maxlength='11' /></td>" +  // Adicionado maxlength='11'
     "<td><input type='email' name='email[]' class='form-control' required/></td>" +
     "<td><input type='text' name='telefone[]' class='form-control' required/></td>" +
     "<td><a href='javascript:void(0)' class='btn btn-danger deleteRow'>Remover</a></td>" +
     "</tr>";
+
 
 // Função para adicionar uma linha à tabela
 function adicionarLinha() {
@@ -70,12 +71,20 @@ function validateForm() {
     var dataFinal = new Date(document.getElementById("dataFinal").value);
     var isValid = true;
     var mensagem = "Dados salvos com sucesso. Aguarde a confirmação da sua reserva.";
-    $(".form-control").each(function () {
+    $(".obrigatorio").each(function () {
         if ($(this).val() == "") {
             mensagem = "Por favor, informe corretamente os dados dos hóspedes.";
             isValid = false;
         }
     });
+
+    $(".cpf").each(function () {
+        if (!validarCPF($(this).val())) {
+            mensagem = "Por favor, informe corretamente os CPF dos hóspedes.";
+            isValid = false;
+        }
+    });
+    
     // Check if any date is invalid
     if (isNaN(dataInicial.getTime()) || isNaN(dataFinal.getTime())) {
         mensagem = "Por favor informe datas válidas.";
@@ -96,3 +105,42 @@ $("#limpar").on("click", function (e) {
         $(this).val("");
     });
 });
+
+function validarCPF(cpf) {
+    // Remover caracteres não numéricos (caso haja algum)
+    cpf = cpf.replace(/\D/g, '');
+
+    // Verificar se o CPF tem 11 dígitos
+    if (cpf.length !== 11) {
+        return false;
+    }
+
+    // Verificar se o CPF é uma sequência de números repetidos, como "11111111111"
+    if (/^(\d)\1{10}$/.test(cpf)) {
+        return false;
+    }
+
+    // Validar primeiro dígito verificador
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+        soma += parseInt(cpf.charAt(i)) * (10 - i);
+    }
+    let resto = soma % 11;
+    let digito1 = (resto < 2) ? 0 : 11 - resto;
+    if (parseInt(cpf.charAt(9)) !== digito1) {
+        return false;
+    }
+
+    // Validar segundo dígito verificador
+    soma = 0;
+    for (let i = 0; i < 10; i++) {
+        soma += parseInt(cpf.charAt(i)) * (11 - i);
+    }
+    resto = soma % 11;
+    let digito2 = (resto < 2) ? 0 : 11 - resto;
+    if (parseInt(cpf.charAt(10)) !== digito2) {
+        return false;
+    }
+
+    return true;
+}

@@ -13,6 +13,7 @@ use App\Models\Reserva as ReservaModel;
 class HostController extends Controller
 {
     private $blockedDates = array();
+    private $reservasAgendadas = array();
 
     public function index()
     {
@@ -32,7 +33,7 @@ class HostController extends Controller
         }
 
         $datasConfirmadas = ['2024-12-25', '2024-12-31'];
-
+        $this->reservasAgendadas = $datasConfirmadas;
         $datasBloqueadas = $this->blockedDates;
         return view('hospedes.index', compact('datasBloqueadas', 'datasConfirmadas'));
     }
@@ -76,7 +77,9 @@ class HostController extends Controller
         $reserva->salvarReserva($request, $dadosReserva);
         //Fim reserva
 
-        return view('hospedes.index');
+        $datasBloqueadas = $this->blockedDates;
+        $datasConfirmadas = $this->reservasAgendadas;
+        return view('hospedes.index', compact('datasBloqueadas', 'datasConfirmadas'));
     }
 
     private function bloquearDatas($dr)

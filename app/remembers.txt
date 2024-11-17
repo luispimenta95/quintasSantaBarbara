@@ -1,3 +1,3 @@
 Adicionar o campo confirmação na estrutura de uma reserva e só bloquear a data se a reserva estiver de fato confirmada
 
-Pesquisar uma forma de adicionar no dataPicker uma cor diferente para reservas que ainda não foram confirmadas.
+Ajustar verificação campo email 

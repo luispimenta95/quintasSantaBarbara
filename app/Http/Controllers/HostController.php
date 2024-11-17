@@ -27,13 +27,19 @@ class HostController extends Controller
 
             $interval = DateInterval::createFromDateString('1 day');
             $daterange = new DatePeriod($start_date, $interval, $end_date);
+            // TipoBloqueio = 1 se data estiver reservada e paga, 2 se data estiver apenas confirmada
+            if ($reserva->reservaConfirmada == 1) {
+                $tipoBloqueio = 1;
+            } else {
+                $tipoBloqueio = 2;
+            }
 
             // Definindo as datas bloqueadas
-            $this->bloquearDatas($daterange);
+            $this->bloquearDatas($daterange, $tipoBloqueio);
         }
 
-        $datasConfirmadas = ['2024-12-25', '2024-12-31'];
-        $this->reservasAgendadas = $datasConfirmadas;
+
+        $datasConfirmadas = $this->reservasAgendadas;
         $datasBloqueadas = $this->blockedDates;
         return view('hospedes.index', compact('datasBloqueadas', 'datasConfirmadas'));
     }
@@ -76,16 +82,17 @@ class HostController extends Controller
         $reserva = new Reserva();
         $reserva->salvarReserva($request, $dadosReserva);
         //Fim reserva
-
-        $datasBloqueadas = $this->blockedDates;
-        $datasConfirmadas = $this->reservasAgendadas;
-        return view('hospedes.index', compact('datasBloqueadas', 'datasConfirmadas'));
+        return redirect('/iniciar-reserva');
     }
 
-    private function bloquearDatas($dr)
+    private function bloquearDatas($dr, $tipoBloqueio)
     {
         foreach ($dr as $date1) {
-            array_push($this->blockedDates, $date1->format("Y-m-d"));
+            if ($tipoBloqueio == 1) {
+                array_push($this->blockedDates, $date1->format("Y-m-d"));
+            } else {
+                array_push($this->reservasAgendadas, $date1->format("Y-m-d"));
+            }
         }
     }
 }

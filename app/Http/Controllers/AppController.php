@@ -43,8 +43,18 @@ class AppController extends Controller
         $mes = Carbon::now()->format('m');
         $ano = Carbon::now()->format('Y');
         $months = [
-            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
-            'Novembro', 'Dezembro'
+            'Janeiro',
+            'Fevereiro',
+            'Março',
+            'Abril',
+            'Maio',
+            'Junho',
+            'Julho',
+            'Agosto',
+            'Setembro',
+            'Outubro',
+            'Novembro',
+            'Dezembro'
         ];
         return $dia . ' de ' . $months[$mes - 1] . ' de ' . $ano;
     }
@@ -82,6 +92,7 @@ class AppController extends Controller
             'dataInicial' =>  date('d/m/Y', strtotime($params['reserva']['dataInicial'])),
             'dataFinal' =>  date('d/m/Y', strtotime($params['reserva']['dataFinal'])),
             'email' => config('app.email'),
+            'preco' => config('app.preco'),
             'hospedes' => $hosts
         ];
 

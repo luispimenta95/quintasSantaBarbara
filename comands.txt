@@ -5,3 +5,4 @@ npm install
 npm run build
 php artisan migrate
 php artisan serve
+git branch | grep 'pattern' | xargs git branch -d // Remove varias branches

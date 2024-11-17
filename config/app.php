@@ -135,7 +135,7 @@ return [
     'bloco' => env('BLOCO'),
     'tipo' => env('TIPO_UNIDADE'),
     'email' => env('EMAIL'),
-    'assinatura' => env('PATH_ASSINATURA')
+    'preco' => env('PRECO_DIARIA')
 
     //FIM VARIAVEIS DO PDF
 

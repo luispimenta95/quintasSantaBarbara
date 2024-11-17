@@ -9,6 +9,7 @@ use App\Http\Controllers\ReservaController as Reserva;
 use App\Models\Hospede;
 use DatePeriod;
 use DateInterval;
+use Carbon\Carbon;
 use App\Models\Reserva as ReservaModel;
 
 class HostController extends Controller
@@ -24,7 +25,6 @@ class HostController extends Controller
 
             $start_date = date_create($reserva->dataInicial);
             $end_date = date_create($reserva->dataFinal);
-            $end_date->modify('+1 day');
 
             $interval = DateInterval::createFromDateString('1 day');
             $daterange = new DatePeriod($start_date, $interval, $end_date);
@@ -83,6 +83,12 @@ class HostController extends Controller
         $data['hospedes'] = $hospedes;
         $data['camArquivo'] = public_path('pdf/reservas/');
         $data['nomePdf'] = 'Reserva_' . date("d_m_Y_his") . ".pdf";
+
+        $toDate = Carbon::parse($request->dataInicial);
+        $fromDate = Carbon::parse($request->dataFinal);
+        $dateRange = $toDate->diffInDays($fromDate) + 1;
+        $dadosReserva['qtdDias'] = $dateRange;
+
         // Fim das informacoes hospedes
 
         //Reserva

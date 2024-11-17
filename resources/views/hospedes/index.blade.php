@@ -42,6 +42,7 @@
                                                 <li class="list-group-item"><?php echo $msgStatus ?></li>
                                                 <li class="list-group-item">O tempo máximo para pagamento da reserva é de um (01) dia útil, via PIX caso contrário, a solicitação de reserva <b>será cancelada </b>
                                                 </li>
+                                                <li class="list-group-item">A reserva se inicia às 14h do primeiro dia informado e se encerra às 11h do último dia informado.</li>
                                                 <li class="list-group-item">A reserva permite um número máximo de quatro (04) pessoas, independente da idade.</li>
                                                 <li class="list-group-item">É permitido somente um período de sessenta (60) dias de antecedência para realizar a reserva.</li>
                                             </ul>

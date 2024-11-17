@@ -12,5 +12,14 @@ class Reserva extends Model
      *
      * @var array
      */
-    protected $fillable = ['dataInicial', 'dataFinal', 'camArquivo', 'hospedes' => 'array', 'reservaConfirmada', 'qtdDias'];
+    protected $fillable =
+    [
+        'dataInicial',
+        'dataFinal',
+        'camArquivo',
+        'hospedes' => 'array',
+        'reservaConfirmada',
+        'qtdDias',
+        'valorReserva'
+    ];
 }

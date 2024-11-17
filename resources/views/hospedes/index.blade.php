@@ -81,7 +81,7 @@
                                 <td><input type='date' name='nascimento[]' class='form-control obrigatorio' max="<?= date('Y-m-d'); ?>" required /></td>
                                 <td><input type='text' name='cpf[]' class='form-control cpf' maxlength="11" required /></td>
                                 <td><input type='email' name='email[]' class='form-control obrigatorio' required /></td>
-                                <td><input type='text' name='telefone[]' class='form-control obrigatorio' required /></td>
+                                <td><input type='text' name='telefone[]' class='form-control obrigatorio tel' maxlength="15" oninput="mascaraTelefone(this)" required /></td>
 
                                 <td><a href=" javascript:void(0)" class="btn btn-danger deleteRow">Remover</a></td>
 

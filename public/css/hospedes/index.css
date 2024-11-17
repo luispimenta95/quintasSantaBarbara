@@ -1,0 +1,22 @@
+.blocked {
+    background-color: yellow !important;
+    /* Fundo da célula amarelo */
+    color: green !important;
+    /* Texto verde (usando green como você especificou) */
+    border: 5px solid red !important;
+    /* Borda vermelha (para maior contraste) */
+    pointer-events: none;
+    /* Impede interatividade */
+}
+.analisando {
+    background-color: yellow !important;
+    /* Fundo da célula amarelo */
+    color: green !important;
+    /* Texto verde (usando green como você especificou) */
+    border: 5px solid yellow !important;
+    /* Borda vermelha (para maior contraste) */
+    pointer-events: none;
+    /* Impede interatividade
+            
+            */
+}

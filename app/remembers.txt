@@ -1,0 +1,3 @@
+Adicionar o campo confirmação na estrutura de uma reserva e só bloquear a data se a reserva estiver de fato confirmada
+
+Ajustar verificação campo email 

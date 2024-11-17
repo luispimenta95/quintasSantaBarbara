@@ -77,7 +77,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type='text' name='nome[]' class='form-control obrigatorio' required /></td>
+                                <td><input type='text' name='nome[]' class='form-control obrigatorio name' required /></td>
                                 <td><input type='date' name='nascimento[]' class='form-control obrigatorio' max="<?= date('Y-m-d'); ?>" required /></td>
                                 <td><input type='text' name='cpf[]' class='form-control cpf' maxlength="11" required /></td>
                                 <td><input type='email' name='email[]' class='form-control obrigatorio' required /></td>

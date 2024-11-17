@@ -7,7 +7,7 @@ var dd = String(today.getDate()).padStart(2, "0");
 today = yyyy + "-" + mm + "-" + dd;
 var linha =
     "<tr>" +
-    "<td><input type='text' name='nome[]' class='form-control' required /></td>" +
+    "<td><input type='text' name='nome[]' class='form-control name' required /></td>" +
     "<td><input type='date' name='nascimento[]' class='form-control' required max='" +
     today +
     "' /></td>" +
@@ -81,6 +81,13 @@ function validateForm() {
     $(".cpf").each(function () {
         if (!validarCPF($(this).val())) {
             mensagem = "Por favor, informe corretamente os CPF dos hóspedes.";
+            isValid = false;
+        }
+    });
+
+     $(".name").each(function () {
+        if ($(this).val() == "" || $(this).val().length < 5) {
+            mensagem = "Por favor, informe corretamente os nomes dos hóspedes.";
             isValid = false;
         }
     });

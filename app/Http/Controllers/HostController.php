@@ -6,12 +6,43 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as Database;
 use App\Http\Controllers\ReservaController as Reserva;
+use App\Models\Hospede;
+use DatePeriod;
+use DateInterval;
+use App\Models\Reserva as ReservaModel;
 
 class HostController extends Controller
 {
+    private $blockedDates = array();
+    private $reservasAgendadas = array();
+
     public function index()
     {
-        return view('hospedes.index');
+
+        $reservas = ReservaModel::all();
+        foreach ($reservas as $reserva) {
+
+            $start_date = date_create($reserva->dataInicial);
+            $end_date = date_create($reserva->dataFinal);
+            $end_date->modify('+1 day');
+
+            $interval = DateInterval::createFromDateString('1 day');
+            $daterange = new DatePeriod($start_date, $interval, $end_date);
+            // TipoBloqueio = 1 se data estiver reservada e paga, 2 se data estiver apenas confirmada
+            if ($reserva->reservaConfirmada == 1) {
+                $tipoBloqueio = 1;
+            } else {
+                $tipoBloqueio = 2;
+            }
+
+            // Definindo as datas bloqueadas
+            $this->bloquearDatas($daterange, $tipoBloqueio);
+        }
+
+
+        $datasConfirmadas = $this->reservasAgendadas;
+        $datasBloqueadas = $this->blockedDates;
+        return view('hospedes.index', compact('datasBloqueadas', 'datasConfirmadas'));
     }
     public function receberDados(Request $request)
     {
@@ -34,7 +65,15 @@ class HostController extends Controller
                 'email' => $email[$i],
                 'telefone' => $telefone[$i]
             ];
-            $lastId = Database::table('hospedes')->insertGetId($informacoesHospedes);
+            $hospede = new Hospede([
+                'nome' => $nome[$i],
+                'cpf' => $cpf[$i],
+                'nascimento' => $nascimento[$i],
+                'email' => $email[$i],
+                'telefone' => $telefone[$i],
+            ]);
+            $hospede->save();
+            $lastId = count(Hospede::all());
             array_push($idsHospedes, $lastId);
             array_push($hospedes, $informacoesHospedes);
         }
@@ -52,7 +91,17 @@ class HostController extends Controller
         $reserva = new Reserva();
         $reserva->salvarReserva($request, $dadosReserva);
         //Fim reserva
+        return redirect('/iniciar-reserva');
+    }
 
-        return view('hospedes.index');
+    private function bloquearDatas($dr, $tipoBloqueio)
+    {
+        foreach ($dr as $date1) {
+            if ($tipoBloqueio == 1) {
+                array_push($this->blockedDates, $date1->format("Y-m-d"));
+            } else {
+                array_push($this->reservasAgendadas, $date1->format("Y-m-d"));
+            }
+        }
     }
 }

@@ -78,26 +78,6 @@ function validateForm() {
         }
     });
 
-    $(".cpf").each(function () {
-        if (!validarCPF($(this).val())) {
-            mensagem = "Por favor, informe corretamente os CPF dos hóspedes.";
-            isValid = false;
-        }
-    });
-
-     $(".name").each(function () {
-        if ($(this).val() == "" || $(this).val().length < 5) {
-            mensagem = "Por favor, informe corretamente os nomes dos hóspedes.";
-            isValid = false;
-        }
-    });
-
-     $(".tel").each(function () {
-        if ($(this).val() == "" || $(this).val().length < 15) {
-            mensagem = "Por favor, informe corretamente os telefones dos hóspedes.";
-            isValid = false;
-        }
-    });
 
     // Check if any date is invalid
     if (isNaN(dataInicial.getTime()) || isNaN(dataFinal.getTime())) {

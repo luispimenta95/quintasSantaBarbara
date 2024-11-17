@@ -25,9 +25,9 @@ class ReservaController extends Controller
             // Adicionar o hóspede responsável à reserva
             $reserva->hospedeResponsavel = $hospedeResponsavel;
         }
-        $preco = config('app.preco');
 
-        return view('reservas.index', ['reservas' => $reservas, 'preco' => $preco]);
+
+        return view('reservas.index', ['reservas' => $reservas]);
     }
 
     public function getHospedesReserva(Reserva $reserva): Collection
@@ -44,6 +44,7 @@ class ReservaController extends Controller
         $informacoesReserva->hospedes = $params['hospedes'];
         $informacoesReserva->camArquivo = $params['camArquivo'];
         $informacoesReserva->qtdDias = $params['qtdDias'];
+        $informacoesReserva->valorReserva = $params['qtdDias'] *  config('app.preco');
 
         $informacoesReserva->save();
     }

@@ -14,6 +14,17 @@ class ReservaController extends Controller
     public function show()
     {
         $reservas = Reserva::paginate(15);
+        foreach ($reservas as $reserva) {
+            // Recuperar o ID do primeiro hóspede
+            $hospedesArray = json_decode($reserva->hospedes, true);
+            $hospedeResponsavelId = intval($hospedesArray[0]);
+
+            // Recuperar o hóspede responsável
+            $hospedeResponsavel = Hospede::find($hospedeResponsavelId);
+
+            // Adicionar o hóspede responsável à reserva
+            $reserva->hospedeResponsavel = $hospedeResponsavel;
+        }
         return view('reservas.index', ['reservas' => $reservas]);
     }
 
@@ -24,11 +35,13 @@ class ReservaController extends Controller
     }
     public function salvarReserva(Request $request, array $params): void
     {
-        $informacoesReserva['dataInicial'] = $request->dataInicial;
-        $informacoesReserva['dataFinal'] = $request->dataFinal;
-        $informacoesReserva['hospedes'] = $params['hospedes'];
-        $informacoesReserva['camArquivo'] = $params['camArquivo'];
+        $informacoesReserva = new Reserva();
 
-        Database::table('reservas')->insert($informacoesReserva);
+        $informacoesReserva->dataInicial = $request->dataInicial;
+        $informacoesReserva->dataFinal = $request->dataFinal;
+        $informacoesReserva->hospedes = $params['hospedes'];
+        $informacoesReserva->camArquivo = $params['camArquivo'];
+
+        $informacoesReserva->save();
     }
 }

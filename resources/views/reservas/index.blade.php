@@ -1,59 +1,50 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-@include('layout.header')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
+<body>
+    <div class="container mt-5">
+        <h2>Students Dashboard</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Codigo da reserva</th>
+                    <th>Data de entrada</th>
+                    <th>Data de saída</th>
+                    <th> Status Pagamento
+                    <th>Locador responsável</th>
+                    <th>Telefone para contato</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($reservas as $reserva)
+                <tr>
+                    <td>{{ $reserva->id }}</td>
+                    <td><?php echo date('d/m/Y', strtotime($reserva->dataInicial)) ?></td>
+                    <td><?php echo date('d/m/Y', strtotime($reserva->dataFinal)) ?></td>
+                    <?php if ($reserva->reservaConfirmada == 0) {
+                        $status = "Aguardando Pagamento";
+                    } else {
+                        $status = "Pago";
+                    }
+                    ?>
+                    <td>{{ $status }}</td>
+                    <td>{{ $reserva->hospedeResponsavel->nome }}</td>
+                    <td>{{ $reserva->hospedeResponsavel->telefone }}</td>
 
-<body class="bg-light">
-
-
-    <!-- START DATA -->
-    <div class="container">
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <!-- FORM PENCARIAN -->
-            <div class="pb-3">
-                <form class="d-flex" action="" method="post">
-                    <input class="form-control me-1" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Informe o nome para realizar a pesquisa" aria-label="Search">
-                    <button class="btn btn-secondary" type="submit">Pesquisar</button>
-                </form>
-            </div>
-
-
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="col">Numero da reserva</th>
-                        <th class="col">Data inicial</th>
-                        <th class="col">Data final</th>
-
-                        <th class="col">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($reservas as $reserva)
-                    <tr>
-                        <td>{{ $reserva->id }}</td>
-                        <td><?php echo date('d/m/Y', strtotime($reserva->dataInicial)) ?></td>
-                        <td><?php echo date('d/m/Y', strtotime($reserva->dataFinal)) ?></td>
-                        <td>
-                            <a href='' class="btn btn-warning btn-sm">Edit</a>
-                            <a href='' class="btn btn-danger btn-sm">Del</a>
-                            <form action="/gerar-contrato">
-                                <input type="hidden" name="id" value="{{ $reserva->id }}" />
-                                <button type="submit" class="btn btn-success btn-sm">Gerar</button>
-                            </form>
-
-                        </td>
-                        @endforeach
-                        {{ $reservas->links()}}
-                </tbody>
-            </table>
-
-        </div>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-    <!-- AKHIR DATA -->
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

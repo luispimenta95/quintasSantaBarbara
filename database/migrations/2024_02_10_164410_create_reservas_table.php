@@ -18,6 +18,8 @@ return new class extends Migration
             $table->json('hospedes');
             $table->boolean('reservaConfirmada')->default(false);
             $table->string('camArquivo');
+            $table->integer('qtdDias');
+
             $table->timestamps();
         });
     }

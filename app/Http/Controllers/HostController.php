@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as Database;
 use App\Http\Controllers\ReservaController as Reserva;
+use App\Models\Hospede;
 use DatePeriod;
 use DateInterval;
 use App\Models\Reserva as ReservaModel;
@@ -64,7 +65,15 @@ class HostController extends Controller
                 'email' => $email[$i],
                 'telefone' => $telefone[$i]
             ];
-            $lastId = Database::table('hospedes')->insertGetId($informacoesHospedes);
+            $hospede = new Hospede([
+                'nome' => $nome[$i],
+                'cpf' => $cpf[$i],
+                'nascimento' => $nascimento[$i],
+                'email' => $email[$i],
+                'telefone' => $telefone[$i],
+            ]);
+            $hospede->save();
+            $lastId = count(Hospede::all());
             array_push($idsHospedes, $lastId);
             array_push($hospedes, $informacoesHospedes);
         }

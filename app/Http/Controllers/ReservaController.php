@@ -24,11 +24,13 @@ class ReservaController extends Controller
     }
     public function salvarReserva(Request $request, array $params): void
     {
-        $informacoesReserva['dataInicial'] = $request->dataInicial;
-        $informacoesReserva['dataFinal'] = $request->dataFinal;
-        $informacoesReserva['hospedes'] = $params['hospedes'];
-        $informacoesReserva['camArquivo'] = $params['camArquivo'];
+        $informacoesReserva = new Reserva();
 
-        Database::table('reservas')->insert($informacoesReserva);
+        $informacoesReserva->dataInicial = $request->dataInicial;
+        $informacoesReserva->dataFinal = $request->dataFinal;
+        $informacoesReserva->hospedes = $params['hospedes'];
+        $informacoesReserva->camArquivo = $params['camArquivo'];
+
+        $informacoesReserva->save();
     }
 }

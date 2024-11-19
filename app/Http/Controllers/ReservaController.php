@@ -44,7 +44,7 @@ class ReservaController extends Controller
         $informacoesReserva->hospedes = $params['hospedes'];
         $informacoesReserva->camArquivo = $params['camArquivo'];
         $informacoesReserva->qtdDias = $params['qtdDias'];
-
+        $informacoesReserva->valorReserva = $params['qtdDias'] *  config('app.preco');
         $informacoesReserva->save();
     }
 }

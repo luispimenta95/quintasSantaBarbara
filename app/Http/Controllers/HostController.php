@@ -65,14 +65,33 @@ class HostController extends Controller
                 'email' => $email[$i],
                 'telefone' => $telefone[$i]
             ];
-            $hospede = new Hospede([
-                'nome' => $nome[$i],
-                'cpf' => $cpf[$i],
-                'nascimento' => $nascimento[$i],
-                'email' => $email[$i],
-                'telefone' => $telefone[$i],
-            ]);
-            $hospede->save();
+
+            foreach ($cpf as $i => $cpfItem) {
+                // Verifique se o CPF já existe no banco de dados
+                $hospedeExistente = Hospede::where('cpf', $cpfItem)->first();
+
+                if ($hospedeExistente) {
+                    // Atualize o registro existente
+                    $hospedeExistente->update([
+                        'nome' => $nome[$i],
+                        'cpf' => $cpfItem,
+                        'nascimento' => $nascimento[$i],
+                        'email' => $email[$i],
+                        'telefone' => $telefone[$i]
+                    ]);
+                } else {
+                    // Crie um novo registro
+                    $hospede = new Hospede([
+                        'nome' => $nome[$i],
+                        'cpf' => $cpfItem,
+                        'nascimento' => $nascimento[$i],
+                        'email' => $email[$i],
+                        'telefone' => $telefone[$i]
+                    ]);
+                    $hospede->save();
+                }
+            }
+
             $lastId = count(Hospede::all());
             array_push($idsHospedes, $lastId);
             array_push($hospedes, $informacoesHospedes);

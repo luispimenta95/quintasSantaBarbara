@@ -52,12 +52,21 @@ class HostController extends Controller
         $email = $request->email;
         $telefone = $request->telefone;
 
-
-
         $hospedes = array();
         $idsHospedes = array();
 
         for ($i = 0; $i < count($nome); $i++) {
+            // Verifica se o hóspede já existe no banco de dados pelo CPF
+            $hospede = Hospede::updateOrCreate(
+                ['cpf' => $cpf[$i]], // Condição para verificar se o hóspede existe
+                [
+                    'nome' => $nome[$i],
+                    'nascimento' => $nascimento[$i],
+                    'email' => $email[$i],
+                    'telefone' => $telefone[$i]
+                ]
+            );
+
             $informacoesHospedes = [
                 'nome' => $nome[$i],
                 'cpf' => $cpf[$i],
@@ -66,37 +75,11 @@ class HostController extends Controller
                 'telefone' => $telefone[$i]
             ];
 
-            foreach ($cpf as $i => $cpfItem) {
-                // Verifique se o CPF já existe no banco de dados
-                $hospedeExistente = Hospede::where('cpf', $cpfItem)->first();
-
-                if ($hospedeExistente) {
-                    // Atualize o registro existente
-                    $hospedeExistente->update([
-                        'nome' => $nome[$i],
-                        'cpf' => $cpfItem,
-                        'nascimento' => $nascimento[$i],
-                        'email' => $email[$i],
-                        'telefone' => $telefone[$i]
-                    ]);
-                } else {
-                    // Crie um novo registro
-                    $hospede = new Hospede([
-                        'nome' => $nome[$i],
-                        'cpf' => $cpfItem,
-                        'nascimento' => $nascimento[$i],
-                        'email' => $email[$i],
-                        'telefone' => $telefone[$i]
-                    ]);
-                    $hospede->save();
-                }
-            }
-
-            $lastId = count(Hospede::all());
-            array_push($idsHospedes, $lastId);
+            array_push($idsHospedes, $hospede->id);
             array_push($hospedes, $informacoesHospedes);
         }
-        //Iinformacoes Hospedes
+
+        // Informacoes Hospedes
         $data['dataInicial'] = $request->dataInicial;
         $data['dataFinal'] = $request->dataFinal;
         $data['hospedes'] = $hospedes;
@@ -110,12 +93,12 @@ class HostController extends Controller
 
         // Fim das informacoes hospedes
 
-        //Reserva
+        // Reserva
         $dadosReserva['hospedes'] = json_encode($idsHospedes);
         $dadosReserva['camArquivo'] = 'pdf/reservas/' . $data['nomePdf'];
         $reserva = new Reserva();
         $reserva->salvarReserva($request, $dadosReserva);
-        //Fim reserva
+        // Fim reserva
         return redirect('/iniciar-reserva');
     }
 

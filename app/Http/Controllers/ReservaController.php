@@ -24,6 +24,8 @@ class ReservaController extends Controller
 
             // Adicionar o hóspede responsável à reserva
             $reserva->hospedeResponsavel = $hospedeResponsavel;
+            // Calcular o valor da reserva
+            $reserva->valor = $reserva->qtdDias * config('app.preco');
         }
 
 

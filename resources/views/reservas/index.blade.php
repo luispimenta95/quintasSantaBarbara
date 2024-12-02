@@ -21,6 +21,7 @@
                     <th>Locador responsável</th>
                     <th>Valor </th>
                     <th>Telefone para contato</th>
+                    <th>Ações</th>
 
                 </tr>
             </thead>
@@ -39,8 +40,15 @@
                     ?>
                     <td>{{ $status }}</td>
                     <td>{{ $reserva->hospedeResponsavel->nome }}</td>
-                    <td>R$ {{ number_format($reserva->valorReserva, 2, ',', '.') }}</td>
+                    <td>R$ {{ number_format($reserva->valor, 2, ',', '.') }}</td>
                     <td>{{ $reserva->hospedeResponsavel->telefone }}</td>
+                    <td>
+                        <form action="/gerar-contrato">
+                            <input type="hidden" name="id" value="{{ $reserva->id }}" />
+                            <button type="submit" class="btn btn-success btn-sm">Gerar Contrato</button>
+                        </form>
+
+                    </td>
 
                 </tr>
                 @endforeach

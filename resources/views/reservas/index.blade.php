@@ -43,11 +43,7 @@
                     <td>R$ {{ number_format($reserva->valor, 2, ',', '.') }}</td>
                     <td>{{ $reserva->hospedeResponsavel->telefone }}</td>
                     <td>
-                        <form action="/gerar-contrato">
-                            <input type="hidden" name="id" value="{{ $reserva->id }}" />
-                            <button type="submit" class="btn btn-success btn-sm">Gerar Contrato</button>
-                        </form>
-
+                        <button type="button" class="btn btn-success btn-sm" onclick="return updatePagamento(<?php echo $reserva->id; ?>)">Gerar Contrato</button>
                     </td>
 
                 </tr>
@@ -57,6 +53,8 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ asset('js/adm/reserva.js') }}" defer></script>
+
 </body>
 
 </html>

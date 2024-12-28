@@ -19,6 +19,10 @@ class AppController extends Controller
     {
         $reservaController = new ReservaController();
         $reserva = Reserva::find($request->id);
+        if($reserva){
+            $reserva->reservaConfirmada = 1;
+            $reserva->save();
+        }
 
         $file = public_path() . '/' . $reserva->camArquivo;
         if (!file_exists($file)) {

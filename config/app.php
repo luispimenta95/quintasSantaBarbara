@@ -135,7 +135,7 @@ return [
     'bloco' => env('BLOCO'),
     'tipo' => env('TIPO_UNIDADE'),
     'email' => env('EMAIL'),
-    'preco' => env('PRECO_DIARIA')
+    'preco' => env('PRECO')
 
     //FIM VARIAVEIS DO PDF
 

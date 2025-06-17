@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->date('nascimento');
-            $table->string('cpf')->unique();
-            $table->string('email');
-            $table->string('telefone');
+            $table->string('cpf')->unique()->nullable()->comment('CPF do hóspede, pode ser nulo se não for brasileiro');
+            $table->string('email')->nullable()->comment('Email do hóspede, pode ser nulo se não for fornecido');
+            $table->string('telefone')->nullable()->comment('Telefone do hóspede, pode ser nulo se não for fornecido');
             $table->timestamps();
         });
     }

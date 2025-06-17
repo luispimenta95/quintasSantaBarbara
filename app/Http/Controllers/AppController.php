@@ -74,7 +74,7 @@ class AppController extends Controller
         $hosts = array();
         foreach ($params['hospedes'] as $hospede) {
             $hospede['nascimento'] = date('d/m/Y', strtotime($hospede['nascimento']));
-            $hospede['cpf'] = $this->formatarCpf($hospede['cpf']);
+            $hospede['cpf'] = !empty($hospede['cpf']) ? $this->formatarCpf($hospede['cpf']) : $hospede['cpf'];
             array_push($hosts, $hospede);
         }
         $data = [

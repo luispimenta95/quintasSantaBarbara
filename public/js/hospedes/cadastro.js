@@ -11,7 +11,7 @@ var linha =
     "<td><input type='date' name='nascimento[]' class='form-control' required max='" +
     today +
     "' /></td>" +
-    "<td><input type='text' name='cpf[]' class='form-control cpf' required maxlength='11' /></td>" +
+    "<td><input type='text' name='cpf[]' class='form-control cpf'  maxlength='11' /></td>" +
     "<td><input type='email' name='email[]' class='form-control' required/></td>" +
     "<td><input type='text' name='telefone[]' class='form-control tel' required maxlength='15' oninput='mascaraTelefone(this)' /></td>" + // Adicionado o oninput
     "<td><a href='javascript:void(0)' class='btn btn-danger deleteRow'>Remover</a></td>" +

@@ -45,62 +45,79 @@ class HostController extends Controller
         return view('hospedes.index', compact('datasBloqueadas', 'datasConfirmadas'));
     }
     public function receberDados(Request $request)
-    {
-        $nome = $request->nome;
-        $cpf = $request->cpf;
-        $nascimento = $request->nascimento;
-        $email = $request->email;
-        $telefone = $request->telefone;
+{
+    $nome = $request->nome;
+    $nascimento = $request->nascimento;
+    $cpf = $request->cpf ?? [];
+    $email = $request->email ?? [];
+    $telefone = $request->telefone ?? [];
 
-        $hospedes = array();
-        $idsHospedes = array();
+    $hospedes = [];
+    $idsHospedes = [];
 
-        for ($i = 0; $i < count($nome); $i++) {
-            // Verifica se o hóspede já existe no banco de dados pelo CPF
+    for ($i = 0; $i < count($nome); $i++) {
+        // Ignora se nome ou nascimento estiverem ausentes
+        if (empty($nome[$i]) || empty($nascimento[$i])) {
+            continue;
+        }
+
+        // Campos opcionais, com fallback para null
+        $cpfAtual = $cpf[$i] ?? null;
+        $emailAtual = $email[$i] ?? null;
+        $telefoneAtual = $telefone[$i] ?? null;
+
+        // Se CPF existir, usa updateOrCreate, senão apenas create
+        if ($cpfAtual) {
             $hospede = Hospede::updateOrCreate(
-                ['cpf' => $cpf[$i]], // Condição para verificar se o hóspede existe
+                ['cpf' => $cpfAtual],
                 [
                     'nome' => $nome[$i],
                     'nascimento' => $nascimento[$i],
-                    'email' => $email[$i],
-                    'telefone' => $telefone[$i]
+                    'email' => $emailAtual,
+                    'telefone' => $telefoneAtual
                 ]
             );
-
-            $informacoesHospedes = [
+        } else {
+            $hospede = Hospede::create([
                 'nome' => $nome[$i],
-                'cpf' => $cpf[$i],
                 'nascimento' => $nascimento[$i],
-                'email' => $email[$i],
-                'telefone' => $telefone[$i]
-            ];
-
-            array_push($idsHospedes, $hospede->id);
-            array_push($hospedes, $informacoesHospedes);
+                'email' => $emailAtual,
+                'telefone' => $telefoneAtual
+            ]);
         }
 
-        // Informacoes Hospedes
-        $data['dataInicial'] = $request->dataInicial;
-        $data['dataFinal'] = $request->dataFinal;
-        $data['hospedes'] = $hospedes;
-        $data['camArquivo'] = public_path('pdf/reservas/');
-        $data['nomePdf'] = 'Reserva_' . date("d_m_Y_his") . ".pdf";
+        $informacoesHospedes = [
+            'nome' => $nome[$i],
+            'cpf' => $cpfAtual,
+            'nascimento' => $nascimento[$i],
+            'email' => $emailAtual,
+            'telefone' => $telefoneAtual
+        ];
 
-        $toDate = Carbon::parse($request->dataInicial);
-        $fromDate = Carbon::parse($request->dataFinal);
-        $dateRange = $toDate->diffInDays($fromDate) + 1;
-        $dadosReserva['qtdDias'] = $dateRange;
-
-        // Fim das informacoes hospedes
-
-        // Reserva
-        $dadosReserva['hospedes'] = json_encode($idsHospedes);
-        $dadosReserva['camArquivo'] = 'pdf/reservas/' . $data['nomePdf'];
-        $reserva = new Reserva();
-        $reserva->salvarReserva($request, $dadosReserva);
-        // Fim reserva
-        return redirect('/iniciar-reserva');
+        $idsHospedes[] = $hospede->id;
+        $hospedes[] = $informacoesHospedes;
     }
+
+    // Informações adicionais da reserva
+    $data['dataInicial'] = $request->dataInicial;
+    $data['dataFinal'] = $request->dataFinal;
+    $data['hospedes'] = $hospedes;
+    $data['camArquivo'] = public_path('pdf/reservas/');
+    $data['nomePdf'] = 'Reserva_' . date("d_m_Y_his") . ".pdf";
+
+    $toDate = Carbon::parse($request->dataInicial);
+    $fromDate = Carbon::parse($request->dataFinal);
+    $dateRange = $toDate->diffInDays($fromDate) + 1;
+    $dadosReserva['qtdDias'] = $dateRange;
+
+    $dadosReserva['hospedes'] = json_encode($idsHospedes);
+    $dadosReserva['camArquivo'] = 'pdf/reservas/' . $data['nomePdf'];
+
+    $reserva = new Reserva();
+    $reserva->salvarReserva($request, $dadosReserva);
+
+    return redirect('/iniciar-reserva');
+}
 
     private function bloquearDatas($dr, $tipoBloqueio)
     {

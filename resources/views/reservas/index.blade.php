@@ -43,11 +43,7 @@
                     <td>R$ {{ number_format($reserva->valor, 2, ',', '.') }}</td>
                     <td>{{ $reserva->hospedeResponsavel->telefone }}</td>
                     <td>
-                        <form action="/gerar-contrato">
-                            <input type="hidden" name="id" value="{{ $reserva->id }}" />
-                            <button type="submit" class="btn btn-success btn-sm">Gerar Contrato</button>
-                        </form>
-
+                        <button type="button" class="btn btn-success btn-sm gerar-contrato-btn" data-id="{{ $reserva->id }}">Gerar Contrato</button>
                     </td>
 
                 </tr>
@@ -57,6 +53,46 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function showAlert(message) {
+                var existing = document.getElementById('gerar-contrato-alert');
+                if (!existing) {
+                    var div = document.createElement('div');
+                    div.id = 'gerar-contrato-alert';
+                    div.innerHTML = '<div class="alert alert-info" role="alert">' + message + '</div>';
+                    var container = document.querySelector('.container');
+                    if (container) container.insertBefore(div, container.firstChild);
+                } else {
+                    existing.innerHTML = '<div class="alert alert-info" role="alert">' + message + '</div>';
+                }
+            }
+
+            document.querySelectorAll('.gerar-contrato-btn').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    var id = this.getAttribute('data-id');
+                    if (!id) return;
+
+                    // Show non-blocking message
+                    showAlert('Aguarde a geração do contrato...');
+
+                    // disable button briefly to avoid duplicate clicks
+                    this.disabled = true;
+
+                    // Create a hidden iframe to start the download without navigating away
+                    var iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = '/gerar-contrato?id=' + encodeURIComponent(id);
+                    document.body.appendChild(iframe);
+
+                    // Re-enable button after a short timeout (downloads may take longer)
+                    setTimeout(function () {
+                        btn.disabled = false;
+                    }, 50000);
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
